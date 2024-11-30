@@ -12,7 +12,7 @@ class Flight(models.Model):
     arrival_city = models.CharField(max_length=100)
     arrival_country = models.CharField(max_length=100)
     arrival_date = models.DateTimeField()
-    price = models.DecimalField(max_digits=10000, decimal_places=2, default=0.0)  # e.g., 100.00
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # e.g., 100.00
     available_seats = models.PositiveIntegerField(default=0)  # e.g., 50 seats
     departure_time = models.TimeField(null=True, blank=True)
     arrival_time = models.TimeField(null=True, blank=True)

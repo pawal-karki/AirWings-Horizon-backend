@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'flights',
-    'corsheaders'
+    'corsheaders',
+    'authentication',
+    
+
 ]
 
 MIDDLEWARE = [
@@ -80,11 +84,14 @@ WSGI_APPLICATION = 'flight_system.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'airwings',  # Database name
+        'USER': 'postgres',  # Database user (default: 'postgres')
+        'PASSWORD': 'pawal',  # Replace with your PostgreSQL password
+        'HOST': 'localhost',  # Replace with the server address if not local
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -127,11 +134,16 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'authentication.User'
+
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
 
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Add your React app's origin here
+    "http://localhost:5174",  # Add your React app's origin here
 ]
