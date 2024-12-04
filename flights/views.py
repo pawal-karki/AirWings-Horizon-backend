@@ -1,8 +1,10 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Flight, Booking
-from .serializers import FlightSerializer, BookingSerializer
+from .models import Flight, Booking , Schedule
+from django.utils import timezone
+from rest_framework.permissions import IsAuthenticated
+from .serializers import FlightSerializer , ScheduleSerializer , BookingSerializer
 
 
 class FlightViewSet(viewsets.ModelViewSet):
@@ -51,6 +53,7 @@ class FlightViewSet(viewsets.ModelViewSet):
         departure_city = request.query_params.get('departure_city')
         arrival_city = request.query_params.get('arrival_city')
         max_price = request.query_params.get('max_price')
+       
 
         queryset = self.get_queryset()
 
@@ -64,6 +67,28 @@ class FlightViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+class ScheduleViewSet(viewsets.ModelViewSet):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+    permission = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Schedule.objects.all().select_related('flight')
+        status = self.request.query_params.get('status', None)
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()

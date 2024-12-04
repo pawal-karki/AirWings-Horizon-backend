@@ -41,8 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'flights',
     'corsheaders',
-    'authentication',
-    
+    'authentication',   
 
 ]
 
@@ -85,7 +84,7 @@ WSGI_APPLICATION = 'flight_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'airwings',  # Database name
+        'NAME': 'airwings_db',  # Database name
         'USER': 'postgres',  # Database user (default: 'postgres')
         'PASSWORD': 'pawal',  # Replace with your PostgreSQL password
         'HOST': 'localhost',  # Replace with the server address if not local
@@ -134,7 +133,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'authentication.User'
+
 AUTH_USER_MODEL = 'authentication.User'
 
 REST_FRAMEWORK = {
@@ -142,8 +141,18 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5174",  # Add your React app's origin here
+    "http://localhost:5173",  # Add your React app's origin here
 ]

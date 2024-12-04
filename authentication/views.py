@@ -23,7 +23,7 @@ class UserRegistrationView(APIView):
 
 
 class UserLoginView(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
 

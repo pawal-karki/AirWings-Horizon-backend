@@ -21,6 +21,19 @@ class Flight(models.Model):
         return f"{self.flight_id} - {self.departure_city} to {self.arrival_city}"
 
 
+
+class Schedule(models.Model):
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name='schedules')
+    frequency = models.CharField(max_length=100)  # e.g., "Daily", "Mon, Wed, Fri"
+    status = models.CharField(max_length=20, choices=[
+        ('active', 'Active'),
+        ('cancelled', 'Cancelled'),
+        ('delayed', 'Delayed')
+    ], default='active')
+
+    def __str__(self):
+        return f"{self.flight.flight_id} - {self.frequency}"
+
 class Booking(models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name="bookings")
     passenger_name = models.CharField(max_length=100)
